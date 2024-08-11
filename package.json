@@ -1,0 +1,33 @@
+{
+  "name": "lyntr.js",
+  "version": "1.1.0",
+  "description": "A package for developing bots for lyntr.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "tsc && node ./tests/bot.js"
+  },
+  "keywords": ["lyntr", "bot", "lyntr.js"],
+  "author": "Sylicium",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.3",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "somefunctions": "^5.0.1",
+    "typescript": "^5.5.4"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sylicium/lyntr.js.git"
+  },
+  "types": "./dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/Sylicium/lyntr.js/issues"
+  },
+  "homepage": "https://github.com/Sylicium/lyntr.js#readme"
+}
