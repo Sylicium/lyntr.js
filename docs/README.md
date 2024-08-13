@@ -1,45 +1,58 @@
-# 👋 Welcome to A Product
+# Get started with lyntr.js
 
-{% hint style="info" %}
-**GitBook tip:** your product docs aren't just a reference of all your features! use them to encourage folks to perform certain actions and discover the value in your product.
-{% endhint %}
+### 💻 About
 
-## Overview
+`lyntr.js` is a simple and lightweight JavaScript library that utilizes the [Lyntr API](https://lyntr.com) to interact with the Lyntr platform.
 
-Here are a couple of example overviews from products with really great docs:
+### About
 
-> Loom is a video messaging tool that helps you get your message across through instantly shareable videos.
->
-> With Loom, you can record your camera, microphone, and desktop simultaneously. Your video is then instantly available to share through Loom's patented technology.
->
-> — From the [Loom Docs](https://support.loom.com/hc/en-us/articles/360002158057-What-is-Loom-)
+A package for developing bots for lyntr.
 
-> The Mailchimp Marketing API provides programmatic access to Mailchimp data and functionality, allowing developers to build custom features to do things like sync email activity and campaign analytics with their database, manage audiences and campaigns, and more.
->
-> — From the [Mailchimp Marketing API docs](https://mailchimp.com/developer/marketing/docs/fundamentals/)
+### 🚀 Installation
 
-## Quick links
+```bash
+$ npm install lyntr.js
+$ yarn add lyntr.js
+$ pnpm add lyntr.js
+```
 
-{% content-ref url="overview/what-we-do.md" %}
-[what-we-do.md](overview/what-we-do.md)
-{% endcontent-ref %}
+### 📚 Usage
 
-{% content-ref url="overview/our-features.md" %}
-[our-features.md](overview/our-features.md)
-{% endcontent-ref %}
+```javascript
+import * as lyntrjs from 'lyntr.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-## Get Started
+const TOKEN = process.env.TOKEN; // The Lyntr httpOnly cookie named _TOKEN__DO_NOT_SHARE
 
-We've put together some helpful guides for you to get setup with our product quickly and easily.
+let client = new lyntrjs.Client({
+    baseURL: "https://lyntr.jnnj.xyz", 
+    verbose: 0 // 0 to 5
+});
 
-{% content-ref url="fundamentals/getting-set-up/" %}
-[getting-set-up](fundamentals/getting-set-up/)
-{% endcontent-ref %}
+client.on('ready', (loggedAt, user) => {
+    console.log(`Bot is ready, logged at ${loggedAt}`);
+    console.log(`Connected as ${user.username} (${user.handle})`);
+});
 
-{% content-ref url="fundamentals/getting-set-up/setting-permissions.md" %}
-[setting-permissions.md](fundamentals/getting-set-up/setting-permissions.md)
-{% endcontent-ref %}
+client.on('post', lynt => {
 
-{% content-ref url="fundamentals/getting-set-up/inviting-members.md" %}
-[inviting-members.md](fundamentals/getting-set-up/inviting-members.md)
-{% endcontent-ref %}
+    console.log(`[BOT] new lynt (${lynt.id}): ${lynt.username} (${lynt.handle}): ${lynt.content}`, lynt);
+    if(lynt.me) return console.log(`[BOT] Lyn is mine. Returning...`);
+
+    lynt.relynt('Hey someone lynted this')
+});
+
+
+client.login(TOKEN);
+
+```
+
+### ✍ Contributing
+
+Contributions are always welcome! Please fork the repository and create a pull request with your changes.
+
+### Links
+
+* [lyntr.com](https://lyntr.com) (shutted down)
+* [lyntr.jnnj.xyz](https://lyntr.jnnj.xyz)
