@@ -12,6 +12,7 @@ import ClientEmitter from './ClientEmitter.js';
 import APIInterface from './APIInterface.js';
 import cacheManager from './cacheManager.js';
 import { Lynt } from './classes/Lynt.js';
+import { Client } from './Client.js';
 export function __init__() {
     return __awaiter(this, void 0, void 0, function* () {
         function addAllPostsToCache() {
@@ -32,7 +33,13 @@ export function start() {
     return __awaiter(this, void 0, void 0, function* () {
         const main = new mainLoop();
         main.setIntervalFunction("test", () => __awaiter(this, void 0, void 0, function* () {
-            let newPosts = (yield APIInterface.requestEndpoint("GET", "/api/feed?type=New")).lynts;
+            let api_response = (yield APIInterface.requestEndpoint("GET", "/api/feed?type=New"));
+            if (!api_response) {
+                if (Client.Instance.config.verbose >= 2)
+                    console.log(`[Lyntr:10001] Error fetching new posts. No response from API.`);
+                return;
+            }
+            let newPosts = api_response.lynts;
             // Filter new posts if not in cache using cache.keys()
             let cachedIDs = [...cacheManager.getCache("posts").keys()];
             let temp1 = newPosts.filter((post) => {

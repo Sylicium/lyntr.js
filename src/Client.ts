@@ -55,17 +55,27 @@ class Client {
     }
 
     public async login(token:string) {
+        if(this.config.verbose >= 1)console.log(`[lyntr.js] Logging in lyntr bot...`)
         this.token = token;
 
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]   Setting bot token to modules...`)
         APIInterface.setBotToken(token);
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]     Done.`)
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]   Initializing main loop...`);
         await mainLoop.__init__()
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]     Done.`);
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]   Starting main loop...`);
         mainLoop.start();
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]     Done.`);
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]   Fetching user data...`)
         const user: Types.API.GET_api_me = await APIInterface.requestEndpoint('GET', '/api/me');
         this._user = user;
+        if(this.config.verbose >= 4)console.log(`[lyntr.js]     Done.`);
 
         this.logged = true;
         this.loggedAt = new Date(Date.now())
         this.loggedAtTimestamp = Date.now();
+        if(this.config.verbose >= 1) console.log(`[lyntr.js] Logged in as ${user.handle} (${user.username})`)
 
         ClientEmitter.emit("ready", this.loggedAt, user);
     }

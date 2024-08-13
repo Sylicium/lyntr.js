@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as Types from './Types/index.js';
+import { Client } from './Client.js';
 
 const UserAgent = 'lyntr-js/1.1.0';
 
@@ -71,9 +72,9 @@ class APIInterface {
             const response = await axios.request(payload)
             return response.data;
         } catch (error) {
-            console.error(`Payload:`, payload);
-            console.trace(`[Lyntr:10000] Error requesting endpoint: ${error}`,);
-            console.log(error)
+            if(Client.Instance.config.verbose >= 5) console.error(`Payload:`, payload);
+            if(Client.Instance.config.verbose >= 4) console.trace(`[Lyntr:10000] Error requesting endpoint: ${error}`,);
+            if(Client.Instance.config.verbose >= 5) console.log(error)
             return null;
         }
     }

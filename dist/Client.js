@@ -40,15 +40,35 @@ class Client {
     }
     login(token) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.config.verbose >= 1)
+                console.log(`[lyntr.js] Logging in lyntr bot...`);
             this.token = token;
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]   Setting bot token to modules...`);
             APIInterface.setBotToken(token);
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]     Done.`);
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]   Initializing main loop...`);
             yield mainLoop.__init__();
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]     Done.`);
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]   Starting main loop...`);
             mainLoop.start();
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]     Done.`);
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]   Fetching user data...`);
             const user = yield APIInterface.requestEndpoint('GET', '/api/me');
             this._user = user;
+            if (this.config.verbose >= 4)
+                console.log(`[lyntr.js]     Done.`);
             this.logged = true;
             this.loggedAt = new Date(Date.now());
             this.loggedAtTimestamp = Date.now();
+            if (this.config.verbose >= 1)
+                console.log(`[lyntr.js] Logged in as ${user.handle} (${user.username})`);
             ClientEmitter.emit("ready", this.loggedAt, user);
         });
     }

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import axios from 'axios';
+import { Client } from './Client.js';
 const UserAgent = 'lyntr-js/1.1.0';
 class APIInterface {
     constructor() {
@@ -71,9 +72,12 @@ class APIInterface {
                 return response.data;
             }
             catch (error) {
-                console.error(`Payload:`, payload);
-                console.trace(`[Lyntr:10000] Error requesting endpoint: ${error}`);
-                console.log(error);
+                if (Client.Instance.config.verbose >= 5)
+                    console.error(`Payload:`, payload);
+                if (Client.Instance.config.verbose >= 4)
+                    console.trace(`[Lyntr:10000] Error requesting endpoint: ${error}`);
+                if (Client.Instance.config.verbose >= 5)
+                    console.log(error);
                 return null;
             }
         });

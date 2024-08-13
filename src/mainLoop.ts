@@ -4,6 +4,7 @@ import APIInterface from './APIInterface.js';
 import cacheManager from './cacheManager.js';
 import * as Types from './Types/index.js';
 import { Lynt } from './classes/Lynt.js';
+import { Client } from './Client.js';
 
 
 export async function __init__() {
@@ -29,7 +30,14 @@ export async function start() {
     const main = new mainLoop();
 
     main.setIntervalFunction("test", async () => {
-        let newPosts: Types.API.Lynt[] = (await APIInterface.requestEndpoint("GET", "/api/feed?type=New")).lynts;
+        let api_response: {"lynts":Types.API.Lynt[]} = (await APIInterface.requestEndpoint("GET", "/api/feed?type=New"))
+
+        if(!api_response) {
+            if(Client.Instance.config.verbose >= 2) console.log(`[Lyntr:10001] Error fetching new posts. No response from API.`);
+            return;
+        }
+
+        let newPosts: Types.API.Lynt[] = api_response.lynts;
 
         // Filter new posts if not in cache using cache.keys()
         let cachedIDs = [...cacheManager.getCache("posts").keys()];
